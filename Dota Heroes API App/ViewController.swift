@@ -7,24 +7,24 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+class ViewController: UIViewController  {
+    
     @IBOutlet weak var tableView: UITableView!
     
     var heroes = [HeroStruct]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
+        tableView.delegate = self
+        tableView.dataSource = self
         downloadJSON {
             self.tableView.reloadData()
             print("success")
         }
-        
-        tableView.delegate = self
-        tableView.dataSource = self
     }
+}
+//MARK: - TableView
+extension ViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return heroes.count
@@ -43,12 +43,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         performSegue(withIdentifier: "toSecondVC", sender: self)
     }
     
+}
+//MARK: - Segue
+extension  ViewController {
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? HeroDetailsViewController {
             destination.heroesTwo = heroes[tableView.indexPathForSelectedRow!.row]
         }
     }
-    
+
+}
+
+//MARK: - Gettin data from JSON
+extension ViewController {
     
     func downloadJSON(completed: @escaping () -> ()) {
         let url = URL(string: "https://api.opendota.com/api/heroStats")
@@ -68,9 +76,5 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }.resume()
     }
-
+    
 }
-
-
-  
-

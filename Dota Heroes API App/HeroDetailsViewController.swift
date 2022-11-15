@@ -4,6 +4,8 @@
 //
 //  Created by Mahmut Şenbek on 15.11.2022.
 //
+
+//For gettin image for ethernet.
 extension UIImageView {
     func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
         contentMode = mode
@@ -44,13 +46,10 @@ class HeroDetailsViewController: UIViewController {
         legs.text = "Legs:\((heroesTwo?.legs)!)"
         getImage()
     }
-    
     func getImage() {
-        
         let imgUrl = "https://api.opendota.com" + (heroesTwo?.img)!
         print(imgUrl)
         imageView.downloaded(from: imgUrl)
-        
     }
   
 
